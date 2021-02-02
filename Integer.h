@@ -37,6 +37,9 @@ namespace cosc326 {
 
 	private:
 		// Can add internal storage or methods here
+		char sign;
+		std::vector<int> num;
+
 	};
 
 	// Binary operators
