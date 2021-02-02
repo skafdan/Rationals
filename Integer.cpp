@@ -4,14 +4,17 @@
 
 namespace cosc326 {
 
-	Integer::Integer() {
+	Integer::Integer() 
+	: sign(true),
+	  digits(1,0),
+	  numDigits(1)
+	{
 		// A default constructor that creates Integer with a value of 0.
-		std::vector<int> num = {0}
+
 	}
 
 	Integer::Integer(const Integer& i) {
 		// A copy constructor that duplicates the provided Integer.
-		this->num = i.num;
 	}
 
 	Integer::Integer(const std::string& s) {
@@ -19,10 +22,6 @@ namespace cosc326 {
 		 * One that takes a std::string of digits (possibly with a leading + or
 		 * -).
 		 */
-		 int x = 0;
-		 stringstream s2int(s);
-
-		 s2int >> x;
 		 // take int and put in num backwards
 	}
 
