@@ -36,14 +36,16 @@ namespace cosc326 {
 		friend bool operator<(const Integer& lhs, const Integer& rhs);
 
 		int getNumDigits();
+		std::string toString() const;
 	private:
-		// Can add internal storage or methods here
+		//Data fields
 		bool sign;
 		std::vector<int> digits;
 		int numDigits;
-		int GetDigit(int k) const;
-		int AddSigDigit(int value);
-		void ChangeDigit(int k, int value);
+		//methods
+		int getDigit(int k) const;
+		void addSigDigit(int value);
+		void changeDigit(int k, int value);
 	};
 	// Binary operators
 	Integer operator+(const Integer& lhs, const Integer& rhs); // lhs + rhs;
