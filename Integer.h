@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 namespace cosc326 {
 
@@ -30,19 +31,20 @@ namespace cosc326 {
 		Integer& operator*=(const Integer& i); // j *= i;
 		Integer& operator/=(const Integer& i); // j /= i;
 		Integer& operator%=(const Integer& i); // j %= i;
-
 		// lhs < rhs -- a 'friend' means operator isn't a member, but can access the private parts of the class.
 		// You may need to make some other functions friends, but do so sparingly.
 		friend bool operator<(const Integer& lhs, const Integer& rhs);
 
+		int getNumDigits();
 	private:
 		// Can add internal storage or methods here
 		bool sign;
 		std::vector<int> digits;
 		int numDigits;
-
+		int GetDigit(int k) const;
+		int AddSigDigit(int value);
+		void ChangeDigit(int k, int value);
 	};
-
 	// Binary operators
 	Integer operator+(const Integer& lhs, const Integer& rhs); // lhs + rhs;
 	Integer operator-(const Integer& lhs, const Integer& rhs); // lhs - rhs;
@@ -60,6 +62,7 @@ namespace cosc326 {
 	bool operator!=(const Integer& lhs, const Integer& rhs); // lhs != rhs
 
 	Integer gcd(const Integer& a, const Integer& b);  // i = gcd(a, b);
+
 }
 
 #endif

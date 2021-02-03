@@ -24,8 +24,7 @@ namespace cosc326 {
 		 */
 		 // take int and put in num backwards
 	}
-
-
+	
 	Integer::~Integer() {
 	
 	}
@@ -119,5 +118,7 @@ namespace cosc326 {
 	Integer gcd(const Integer& a, const Integer& b) {
 		return a;
 	}
-
+	int Integer::getNumDigits(){
+		return this->numDigits;
+	}
 }
