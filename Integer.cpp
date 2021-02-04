@@ -159,7 +159,7 @@ namespace cosc326 {
     }
     void Integer::changeDigit(int k,int value){
         if(k < 0 || k > numDigits){
-            std::cerr << "Cant change digit " << k << " only " << numDigits << std::endl;
+            std::cerr << "Cant change digit " << k << ".only " << numDigits << std::endl;
         }else {
             digits[k] = value;
         }
@@ -174,7 +174,7 @@ namespace cosc326 {
         }else {
             ss << "-";
         }
-        for(int i = digits.size()-1; i >= 0; i--){
+        for(int i = numDigits-1; i >= 0; i--){
             ss << digits[i];
         }
         return ss.str();
