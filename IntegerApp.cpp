@@ -2,7 +2,11 @@
 #include "Integer.h"
 
 int main(){
-    cosc326::Integer i("-523");
-    std::cout << i.toString();
+    while(std::cin){
+        std::string input;
+        getline(std::cin,input);
+        cosc326::Integer i(input);
+        std::cout << i.toString() << std::endl;
+    }
     return 0;
 }
