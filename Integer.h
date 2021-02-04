@@ -34,8 +34,9 @@ namespace cosc326 {
 		// lhs < rhs -- a 'friend' means operator isn't a member, but can access the private parts of the class.
 		// You may need to make some other functions friends, but do so sparingly.
 		friend bool operator<(const Integer& lhs, const Integer& rhs);
+		friend bool equal(const Integer& lhs, const Integer& rhs);	
 
-		int getNumDigits();
+		int getNumDigits() const;
 		std::string toString() const;
 	private:
 		//Data fields
@@ -46,6 +47,7 @@ namespace cosc326 {
 		int getDigit(int k) const;
 		void addSigDigit(int value);
 		void changeDigit(int k, int value);
+		void normalize(); //Removes leading zeros
 	};
 	// Binary operators
 	Integer operator+(const Integer& lhs, const Integer& rhs); // lhs + rhs;

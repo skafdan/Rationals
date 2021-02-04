@@ -51,7 +51,7 @@ namespace cosc326 {
 	}
 	
 	Integer::~Integer() {
-
+		//destructor 
 	}
 
 	Integer& Integer::operator=(const Integer& i) {
@@ -120,23 +120,54 @@ namespace cosc326 {
 	}
 
 	bool operator<(const Integer& lhs, const Integer& rhs) {
+		//-rhs && +lhs rhs cant not be greater than lhs.
+        if(rhs == lhs){
+            return false;
+        }else if(rhs.sign == false && lhs.sign == true){
+			return false;
+		//Same sign(+) but length of rhs < length of lhs, lhs cant be greater.
+		}else if ((rhs.sign == true && lhs.sign == true)
+			&& lhs.getNumDigits() > rhs.getNumDigits()){ 
+			return false;
+        //Same sign(-) but length of rhs > length of lhs, rhs cant be greater.
+        }else if ((rhs.sign == false && lhs.sign == false) 
+            && lhs.getNumDigits() < rhs.getNumDigits()){
+                return false;
+		}else if(rhs.sign == lhs.sign && //If a digit is greater on the lhs.
+			rhs.getNumDigits() == lhs.getNumDigits()){
+            int k = rhs.getNumDigits()-1;
+            while(k >= 0){
+                if(lhs.getDigit(k) > rhs.getDigit(k)){
+                    return false;
+                }
+            }
+		}
 		return true;
 	}
 
 	bool operator> (const Integer& lhs, const Integer& rhs) {
-		return true;
+        if(lhs == rhs){
+            return false;
+        }
+		return rhs < lhs;
 	}
 
 	bool operator<=(const Integer& lhs, const Integer& rhs) {
-		return true;
+        if(lhs < rhs || lhs == rhs){
+            return true;
+        }
+		return false;
 	}
 
 	bool operator>=(const Integer& lhs, const Integer& rhs) {
-		return true;
+        if((lhs>rhs) || lhs == rhs){
+            return true;
+        }
+		return false;
 	}
 
 	bool operator==(const Integer& lhs, const Integer& rhs) {
-		return true;
+		return equal(lhs, rhs);
 	}
 
 	bool operator!=(const Integer& lhs, const Integer& rhs) {
@@ -165,7 +196,7 @@ namespace cosc326 {
             digits[k] = value;
         }
     }
-	int Integer::getNumDigits(){
+	int Integer::getNumDigits() const{
 		return this->numDigits;
 	}
     std::string Integer::toString() const{
@@ -178,4 +209,19 @@ namespace cosc326 {
         }
         return ss.str();
     }
+	void Integer::normalize(){
+		//To be implemented
+	}
+	bool equal(const Integer& lhs, const Integer& rhs){
+		if((lhs.sign != rhs.sign) || (lhs.numDigits != rhs.numDigits)){
+			return false;
+		}else { //At this point the numDigits and sign must be equal
+			for(int i = lhs.getNumDigits() - 1; i >= 0; i++){
+				if(lhs.getDigit(i) != rhs.getDigit(i)){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }
