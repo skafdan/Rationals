@@ -171,7 +171,7 @@ namespace cosc326 {
 	}
 
 	bool operator!=(const Integer& lhs, const Integer& rhs) {
-		return true;
+		return !(lhs==rhs);
 	}
 
 
