@@ -6,7 +6,7 @@ int main(){
         std::string input;
         getline(std::cin,input);
         cosc326::Integer i(input);
-        std::cout << i.toString() << std::endl;
+        std::cout << i << std::endl;
     }
     return 0;
 }

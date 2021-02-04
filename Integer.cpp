@@ -108,6 +108,7 @@ namespace cosc326 {
 
 
 	std::ostream& operator<<(std::ostream& os, const Integer& i) {
+		os << i.toString();
 		return os;
 	}
 
