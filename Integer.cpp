@@ -169,9 +169,7 @@ namespace cosc326 {
 	}
     std::string Integer::toString() const{
         std::stringstream ss;
-        if(sign == true){
-            ss << "+";
-        }else {
+        if(sign == false){
             ss << "-";
         }
         for(int i = numDigits-1; i >= 0; i--){
