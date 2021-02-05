@@ -236,7 +236,7 @@ namespace cosc326 {
 		if((lhs.sign != rhs.sign) || (lhs.numDigits != rhs.numDigits)){
 			return false;
 		}else { //At this point the numDigits and sign must be equal
-			for(int i = lhs.getNumDigits() - 1; i >= 0; i++){
+			for(int i = lhs.getNumDigits() - 1; i >= 0; i--){
 				if(lhs.getDigit(i) != rhs.getDigit(i)){
 					return false;
 				}
