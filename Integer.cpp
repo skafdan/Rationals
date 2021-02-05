@@ -66,11 +66,17 @@ namespace cosc326 {
 	}
 
 	Integer Integer::operator-() const {
-		return Integer(*this);
+		Integer negativeCopy(*this);
+		negativeCopy.sign = false;
+		//return Integer(*this);
+		return negativeCopy;
 	}
 
 	Integer Integer::operator+() const {
-		return Integer(*this);
+		Integer positiveCopy(*this);
+		positiveCopy.sign = true;
+		//return Integer(*this);
+		return positiveCopy;
 	}
 
 	Integer& Integer::operator+=(const Integer& i) {
@@ -81,9 +87,9 @@ namespace cosc326 {
 			length = i.numDigits;
 		}
 		if (this->sign != i.sign){
-			Integer flippedSign(i);	
-			flippedSign.sign = !flippedSign.sign;
-			std::cout << flippedSign << std::endl;
+			Integer flippedSignI(i);	
+			flippedSignI.sign = !flippedSignI.sign;
+			*this -= flippedSignI;
 			return *this;
 		}
 		for(int k = 0; k < length; k++){
@@ -104,7 +110,43 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator-=(const Integer& i) {
+		int diff;
+		int borrow = 0;
 
+		int length = numDigits;
+		if (*this == i){
+			Integer zero;
+			*this = zero;
+			return *this;
+		}
+
+		if(this->sign != i.sign){
+			Integer flippedSignI(i);
+			flippedSignI.sign = !flippedSignI.sign;
+			*this += flippedSignI;
+			return *this;
+		}
+		//Assuming signs are the same. Take larger and place on top.
+		if (this->sign && (*this) < i || 
+			!(this->sign) && (*this) > i){
+			*this = i - *this;
+			if (this->sign){
+				this->sign = !this->sign;
+			} else {
+				this->sign = !this->sign;
+			}
+			return *this;	
+		}
+		for(int k = 0; k < length; k++){
+			diff = getDigit(k) - i.getDigit(k) - borrow;
+			borrow = 0;
+			if ( diff < 0){
+				diff += 10;
+				borrow = 1;
+			}
+			changeDigit(k,diff);
+		}
+		normalize();
 		return *this;
 	}
 

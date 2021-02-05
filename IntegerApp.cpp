@@ -9,12 +9,11 @@ int main(){
     //    std::cout << i << std::endl;
     //}
     std::string input1;
+    std::string input2;
     getline(std::cin,input1);
+    getline(std::cin,input2);
     cosc326::Integer x(input1);
-    cosc326::Integer y(x);
-    cosc326::Integer z;
-    z = y;
-    std::cout << y << std::endl;
-    std::cout << z << std::endl;
+    cosc326::Integer y(input2);
+    std::cout << (x += y) << std::endl;
     return 0;
 }
