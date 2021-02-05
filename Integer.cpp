@@ -151,6 +151,9 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator*=(const Integer& i) {
+		for(int k = numDigits-1; k >= 0; k--){
+
+		}
 		return *this;
 	}
 
@@ -163,11 +166,15 @@ namespace cosc326 {
 	}
 
 	Integer operator+(const Integer& lhs, const Integer& rhs) {
-		return lhs;
+		Integer sum(lhs);
+		sum += rhs;
+		return sum;
 	}
 
 	Integer operator-(const Integer& lhs, const Integer& rhs) {
-		return lhs;
+		Integer sum(lhs);
+		sum -= rhs;
+		return sum;
 	}
 
 	Integer operator*(const Integer& lhs, const Integer& rhs) {
