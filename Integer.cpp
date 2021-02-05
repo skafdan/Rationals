@@ -15,6 +15,9 @@ namespace cosc326 {
 
 	Integer::Integer(const Integer& i) {
 		// A copy constructor that duplicates the provided Integer.
+		this->numDigits = i.numDigits;
+		this->digits = i.digits;
+		this->sign = i.sign;
 	}
 
 	Integer::Integer(const std::string& s)
@@ -56,6 +59,9 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator=(const Integer& i) {
+		this->sign = i.sign;
+		this->digits = i.digits;
+		this->numDigits = i.numDigits;
 		return *this;
 	}
 
@@ -74,6 +80,12 @@ namespace cosc326 {
 		if(length < i.numDigits){
 			length = i.numDigits;
 		}
+		if (this->sign != i.sign){
+			Integer flippedSign(i);	
+			flippedSign.sign = !flippedSign.sign;
+			std::cout << flippedSign << std::endl;
+			return *this;
+		}
 		for(int k = 0; k < length; k++){
 			sum = getDigit(k) + i.getDigit(k) + carry;
 			carry = sum/BASE;
@@ -83,14 +95,16 @@ namespace cosc326 {
 			}else {
 				addSigDigit(sum);
 			}
-			if(carry != 0){
-				addSigDigit(carry);
-			}
+			
+		}
+		if(carry != 0){
+			addSigDigit(carry);
 		}
 		return *this;
 	}
 
 	Integer& Integer::operator-=(const Integer& i) {
+
 		return *this;
 	}
 
