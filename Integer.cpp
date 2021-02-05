@@ -1,6 +1,7 @@
 #include "Integer.h"
 #include <vector>
 #include <sstream>
+#include <algorithm>
 #define BASE 10
 
 namespace cosc326 {
@@ -151,10 +152,18 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator*=(const Integer& i) {
-		for(int k = numDigits-1; k >= 0; k--){
+        std::vector<int> result;
+        Integer copyI(i);
+        int carry;
+        if(*this < i){
+            std::swap(*this,copyI);
+        }
+        for(int k = 0; k < this->numDigits; k++){
+            for(int j = 0; j < copyI.numDigits; j++){
 
-		}
-		return *this;
+            }
+        }
+
 	}
 
 	Integer& Integer::operator/=(const Integer& i) {
@@ -306,5 +315,11 @@ namespace cosc326 {
 			}
 		}
 		return true;
+	}
+	bool Integer::isNegative(){
+		return !this->sign;
+	}
+	bool Integer::isPositive(){
+		return this->sign;
 	}
 }

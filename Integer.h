@@ -48,6 +48,8 @@ namespace cosc326 {
 		void addSigDigit(int value);
 		void changeDigit(int k, int value);
 		void normalize(); //Removes leading zeros
+		bool isNegative();
+		bool isPositive();
 	};
 	// Binary operators
 	Integer operator+(const Integer& lhs, const Integer& rhs); // lhs + rhs;
