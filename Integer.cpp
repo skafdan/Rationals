@@ -1,6 +1,7 @@
 #include "Integer.h"
 #include <vector>
 #include <sstream>
+#define BASE 10
 
 namespace cosc326 {
 
@@ -67,6 +68,25 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator+=(const Integer& i) {
+		int sum;
+		int carry = 0;
+		int length = this->numDigits;
+		if(length < i.numDigits){
+			length = i.numDigits;
+		}
+		for(int k = 0; k < length; k++){
+			sum = getDigit(k) + i.getDigit(k) + carry;
+			carry = sum/BASE;
+			sum = sum % BASE;
+			if(k < this->numDigits){
+				changeDigit(k,sum);
+			}else {
+				addSigDigit(sum);
+			}
+			if(carry != 0){
+				addSigDigit(carry);
+			}
+		}
 		return *this;
 	}
 
