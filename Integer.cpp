@@ -169,27 +169,7 @@ namespace cosc326 {
         *this = sum;
 		return *this;
     }
-    Integer Integer::primTimesInt(Integer& i, int x){
-        int carry = 0;
-        int product;
-        int length = i.numDigits;
-        Integer zero("0");
-        Integer result = i;
-        if(0 == x){
-            result = zero;
-            return result;
-        }
-        for(int k = 0; k < length; k++){
-            product = x * result.getDigit(k) + carry;
-            carry = product / BASE;
-            result.changeDigit(k,product % BASE);
-        }
-        while(carry != 0){
-            result.addSigDigit(carry % BASE);
-            carry /= BASE;
-        }
-        return result;
-    }
+
 	Integer& Integer::operator/=(const Integer& i) {
 		return *this;
 	}
@@ -347,4 +327,26 @@ namespace cosc326 {
 	bool Integer::isPositive(){
 		return this->sign;
 	}
+
+    Integer Integer::primTimesInt(Integer& i, int x){
+        int carry = 0;
+        int product;
+        int length = i.numDigits;
+        Integer zero("0");
+        Integer result = i;
+        if(0 == x){
+            result = zero;
+            return result;
+        }
+        for(int k = 0; k < length; k++){
+            product = x * result.getDigit(k) + carry;
+            carry = product / BASE;
+            result.changeDigit(k,product % BASE);
+        }
+        while(carry != 0){
+            result.addSigDigit(carry % BASE);
+            carry /= BASE;
+        }
+        return result;
+    }
 }
