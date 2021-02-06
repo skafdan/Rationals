@@ -185,13 +185,15 @@ namespace cosc326 {
 	}
 
 	Integer operator-(const Integer& lhs, const Integer& rhs) {
-		Integer sum(lhs);
-		sum -= rhs;
-		return sum;
+		Integer result(lhs);
+		result -= rhs;
+		return result;
 	}
 
 	Integer operator*(const Integer& lhs, const Integer& rhs) {
-		return lhs;
+        Integer result = lhs;
+        result *= rhs;
+		return result;
 	}
 
 	Integer operator/(const Integer& lhs, const Integer& rhs) {
@@ -270,7 +272,6 @@ namespace cosc326 {
 	bool operator!=(const Integer& lhs, const Integer& rhs) {
 		return !(lhs==rhs);
 	}
-
 
 	Integer gcd(const Integer& a, const Integer& b) {
 		return a;
