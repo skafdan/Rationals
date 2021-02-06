@@ -16,7 +16,6 @@ namespace cosc326 {
 	}
 
 	Integer::Integer(const Integer& i) {
-		// A copy constructor that duplicates the provided Integer.
 		this->numDigits = i.numDigits;
 		this->digits = i.digits;
 		this->sign = i.sign;
@@ -26,11 +25,6 @@ namespace cosc326 {
 		: sign(true),
 		  numDigits(0),
 		  digits(s.length(),'0'){
-		/**
-		 * One that takes a std::string of digits (possibly with a leading + or
-		 * -).
-		 */
-		 // take int and put in num backwards
         int k;
         int limit = 0;
         if (s.length() == 0){
