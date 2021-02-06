@@ -38,6 +38,8 @@ namespace cosc326 {
 
 		int getNumDigits() const;
 		std::string toString() const;
+		bool isNegative();
+		bool isPositive();
 	private:
 		//Data fields
 		bool sign;
@@ -48,8 +50,6 @@ namespace cosc326 {
 		void addSigDigit(int value);
 		void changeDigit(int k, int value);
 		void normalize(); //Removes leading zeros
-		bool isNegative();
-		bool isPositive();
 		Integer primTimesInt(Integer& i, int x);
 	};
 	// Binary operators

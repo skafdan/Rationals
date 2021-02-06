@@ -15,7 +15,7 @@ int main(){
     cosc326::Integer x(input1);
     cosc326::Integer y(input2);
     try{
-        std::cout << (x %= y) << std::endl;
+        std::cout << (cosc326::gcd(x,y)) << std::endl;
     } catch (const char* msg){
         std::cerr << msg << std::endl;
     }

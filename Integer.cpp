@@ -314,7 +314,18 @@ namespace cosc326 {
 	}
 
 	Integer gcd(const Integer& a, const Integer& b) {
-		return a;
+		Integer copyB(b);
+		Integer copyA(a);
+		Integer zero("0");
+		if(copyB.isNegative() || copyA.isNegative()){
+			return gcd(+copyA,+copyB);
+		}
+		while(copyB != zero){
+			Integer t (copyB);
+			copyB = (copyA % copyB);
+			copyA = t;
+		}
+		return copyA;
 	}
     int Integer::getDigit(int k) const{
         if(0 <= k && k < this->numDigits){
