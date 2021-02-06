@@ -50,6 +50,7 @@ namespace cosc326 {
 		void normalize(); //Removes leading zeros
 		bool isNegative();
 		bool isPositive();
+		Integer primTimesInt(Integer& i, int x);
 	};
 	// Binary operators
 	Integer operator+(const Integer& lhs, const Integer& rhs); // lhs + rhs;

@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <math.h>
 #define BASE 10
 
 namespace cosc326 {
@@ -94,18 +95,18 @@ namespace cosc326 {
 			return *this;
 		}
 		for(int k = 0; k < length; k++){
-			sum = getDigit(k) + i.getDigit(k) + carry;
+			sum = this->getDigit(k) + i.getDigit(k) + carry;
 			carry = sum/BASE;
 			sum = sum % BASE;
 			if(k < this->numDigits){
-				changeDigit(k,sum);
+				this->changeDigit(k,sum);
 			}else {
-				addSigDigit(sum);
+				this->addSigDigit(sum);
 			}
 			
 		}
 		if(carry != 0){
-			addSigDigit(carry);
+			this->addSigDigit(carry);
 		}
 		return *this;
 	}
@@ -152,20 +153,43 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator*=(const Integer& i) {
-        std::vector<int> result;
-        Integer copyI(i);
-        int carry;
-        if(*this < i){
-            std::swap(*this,copyI);
+		if(this->sign != i.sign){
+            this->sign = false;
+		}else {
+            this->sign = true;
         }
-        for(int k = 0; k < this->numDigits; k++){
-            for(int j = 0; j < copyI.numDigits; j++){
-
-            }
+        Integer copy(*this);
+        Integer sum("0");
+        Integer ten("10");
+        int length = i.numDigits;
+        for(int k = 0; k < length; k++){
+            sum += primTimesInt(copy,i.getDigit(k));
+            copy = primTimesInt(copy,10);
         }
-
-	}
-
+        *this = sum;
+		return *this;
+    }
+    Integer Integer::primTimesInt(Integer& i, int x){
+        int carry = 0;
+        int product;
+        int length = i.numDigits;
+        Integer zero("0");
+        Integer result = i;
+        if(0 == x){
+            result = zero;
+            return result;
+        }
+        for(int k = 0; k < length; k++){
+            product = x * result.getDigit(k) + carry;
+            carry = product / BASE;
+            result.changeDigit(k,product % BASE);
+        }
+        while(carry != 0){
+            result.addSigDigit(carry % BASE);
+            carry /= BASE;
+        }
+        return result;
+    }
 	Integer& Integer::operator/=(const Integer& i) {
 		return *this;
 	}
@@ -232,6 +256,7 @@ namespace cosc326 {
                 if(lhs.getDigit(k) > rhs.getDigit(k)){
                     return false;
                 }
+				k--;
             }
 		}
 		return true;
@@ -271,10 +296,10 @@ namespace cosc326 {
 		return a;
 	}
     int Integer::getDigit(int k) const{
-        if(k < 0 || k > numDigits){
-            return 0;
+        if(0 <= k && k < this->numDigits){
+            return this->digits[k];
         }
-        return digits[k];
+        return 0;
     }
     void Integer::addSigDigit(int value){
         if(numDigits >= digits.size()) digits.resize(digits.size() * 2);
