@@ -14,6 +14,10 @@ int main(){
     getline(std::cin,input2);
     cosc326::Integer x(input1);
     cosc326::Integer y(input2);
-    std::cout << (x *= y) << std::endl;
+    try{
+        std::cout << (x %= y) << std::endl;
+    } catch (const char* msg){
+        std::cerr << msg << std::endl;
+    }
     return 0;
 }

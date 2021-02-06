@@ -54,6 +54,7 @@ namespace cosc326 {
                 abort();
             }
         }
+		normalize();
 	}
 	
 	Integer::~Integer() {
@@ -142,7 +143,7 @@ namespace cosc326 {
 		for(int k = 0; k < length; k++){
 			diff = getDigit(k) - i.getDigit(k) - borrow;
 			borrow = 0;
-			if ( diff < 0){
+			if (diff < 0){
 				diff += 10;
 				borrow = 1;
 			}
@@ -171,10 +172,45 @@ namespace cosc326 {
     }
 
 	Integer& Integer::operator/=(const Integer& i) {
+		Integer quotient("0");
+		Integer remainder(*this);
+		Integer dividend (*this);
+		Integer zero("0");
+		Integer one("1");
+		if(i == zero){
+			throw "Division by zero";
+		}
+		if(i < zero){
+			quotient = dividend / +i;
+			quotient.sign = false;
+			*this = quotient;
+			return *this;
+		}
+		while(remainder >= i){
+			quotient = quotient + one;
+			remainder = remainder - i;
+		}
+		*this = quotient;
 		return *this;
 	}
 
 	Integer& Integer::operator%=(const Integer& i) {
+		Integer zero("0");
+		Integer dividend(*this);
+		Integer remainder(*this);
+		if(i == zero){
+			throw "Division by zero";
+		}
+		if(i < zero){
+			remainder = dividend % +i;	
+			remainder.sign = false;
+			*this = remainder;
+			return *this;
+		}
+		while(remainder >= i){
+			remainder = remainder - i;
+		}
+		*this = remainder;
 		return *this;
 	}
 
@@ -197,11 +233,15 @@ namespace cosc326 {
 	}
 
 	Integer operator/(const Integer& lhs, const Integer& rhs) {
-		return lhs;
+		Integer result = lhs;
+		result /= rhs;
+		return result;
 	}
 
 	Integer operator%(const Integer& lhs, const Integer& rhs) {
-		return lhs;
+		Integer result(lhs);
+		result %= rhs;
+		return result;
 	}
 
 
@@ -308,7 +348,16 @@ namespace cosc326 {
         return ss.str();
     }
 	void Integer::normalize(){
-		//To be implemented
+		int i;
+		int length = this->numDigits;
+		for(i = length - 1; i >= 0; i--){
+			if(this->getDigit(i) != 0) break;
+			this->numDigits--;
+		}
+		if(i < 0){
+			this->numDigits = 1;
+			this->sign = true;
+		}
 	}
 	bool equal(const Integer& lhs, const Integer& rhs){
 		if((lhs.sign != rhs.sign) || (lhs.numDigits != rhs.numDigits)){
