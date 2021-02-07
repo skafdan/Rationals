@@ -38,9 +38,16 @@ namespace cosc326 {
 		// lhs < rhs -- a 'friend' means < isn't a member, but can access the private parts of the class.
 		// You may need to make some other functions friends, but do so sparingly.
 		friend bool operator<(const Rational& lhs, const Rational& rhs);
-
+		Integer getNumerator() const;
+		Integer getDenominator() const;
+		Integer getQuotient() const;
+		Integer getRemainder() const;
 	private:
 		// Can add internal storage or methods here
+		Integer numerator;
+		Integer denominator;
+		Integer quotient;
+		Integer remain;
 	};
 
 	// Binary operators
