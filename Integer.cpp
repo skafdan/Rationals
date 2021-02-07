@@ -44,8 +44,9 @@ namespace cosc326 {
             if(isdigit(s[k])){
                 addSigDigit(s.at(k) - '0');
             }else {
-                std::cerr << "malformed int" << std::endl;
-                abort();
+                //std::cerr << "malformed int" << std::endl;
+                //abort();
+				throw "Malformed int";
             }
         }
 		normalize();
