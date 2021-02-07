@@ -383,7 +383,9 @@ namespace cosc326 {
 	bool Integer::isPositive(){
 		return this->sign;
 	}
-
+	bool Integer::getSign(){
+		return this->sign;
+	}
     Integer Integer::primTimesInt(Integer& i, int x){
         int carry = 0;
         int product;

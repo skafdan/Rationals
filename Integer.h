@@ -40,6 +40,7 @@ namespace cosc326 {
 		std::string toString() const;
 		bool isNegative();
 		bool isPositive();
+		bool getSign();
 	private:
 		//Data fields
 		bool sign;
