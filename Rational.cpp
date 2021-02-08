@@ -19,12 +19,29 @@ namespace cosc326 {
         std::stringstream ss(str);
         std::string numStr;
         std::string denomStr;
-        std::getline(ss,numStr, '/');
-        std::getline(ss,denomStr, '/');
-        denominator = Integer(denomStr);
-        numerator = Integer(numStr);
-        quotient = numerator/denominator;
-        remain = numerator % denominator;
+		std::string quoStr;
+        std::string remainStr;
+		if(str.find(".") != std::string::npos){
+			std::getline(ss,quoStr, '.');
+            std::getline(ss,remainStr,'/');
+            std::getline(ss,denomStr,'/');
+            numerator = (Integer(denomStr) * Integer(quoStr)) + Integer(remainStr);
+            denominator = Integer(denomStr);
+            quotient = numerator / denominator;
+            remain = numerator % denominator;
+		}else if (str.find("/") == std::string::npos){
+            numerator = Integer(str); 
+            denominator = Integer("1");
+            quotient = numerator / denominator;
+            remain = numerator % denominator;
+        }else {
+            std::getline(ss,numStr, '/');
+            std::getline(ss,denomStr, '/');
+            denominator = Integer(denomStr);
+            numerator = Integer(numStr);
+            quotient = numerator/denominator;
+            remain = numerator % denominator;
+        }
 	}
 
 	Rational::Rational(const Rational& r) {
