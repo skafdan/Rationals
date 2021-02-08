@@ -170,20 +170,28 @@ namespace cosc326 {
 		Integer quotient("0");
 		Integer remainder(*this);
 		Integer dividend (*this);
+		Integer divisor(i);
 		Integer zero("0");
 		Integer one("1");
-		if(i == zero){
+		if(divisor == zero){
 			throw "Division by zero";
 		}
-		if(i < zero){
-			quotient = dividend / +i;
+		if(this->isNegative() && divisor.isNegative()){
+			Integer lhsPositive(+*this);
+			Integer rhsPositive(+divisor);
+			lhsPositive /= rhsPositive;
+			*this = lhsPositive;
+			return *this;
+		}
+		if(divisor < zero){
+			quotient = dividend / +divisor;
 			quotient.sign = false;
 			*this = quotient;
 			return *this;
 		}
-		while(remainder >= i){
+		while(remainder >= divisor){
 			quotient = quotient + one;
-			remainder = remainder - i;
+			remainder = remainder - divisor;
 		}
 		*this = quotient;
 		return *this;
