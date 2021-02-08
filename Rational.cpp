@@ -169,13 +169,13 @@ namespace cosc326 {
 	std::ostream& operator<<(std::ostream& os, const Rational& i) {
         Rational simplifiedI(i);
         simplifiedI  = i.simplify(simplifiedI);
-        if(i.getRemainder() == Integer("0")){
+        if(+simplifiedI.getRemainder() == Integer("0")){
             os << simplifiedI.getQuotient();
-        }else if(i.getQuotient() == Integer("0")){
+        }else if(simplifiedI.getQuotient() == Integer("0")){
             os << simplifiedI.getNumerator() << "/"
             << simplifiedI.getDenominator();
-        }else if(i.getQuotient() != Integer("1") && 
-            i.getRemainder() != Integer("0")){
+        }else if(simplifiedI.getQuotient() != Integer("0") && 
+            simplifiedI.getRemainder() != Integer("0")){
             os << simplifiedI.getQuotient() << "." <<
                 +simplifiedI.getRemainder() << "/" <<
                 +simplifiedI.getDenominator();
