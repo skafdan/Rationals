@@ -208,8 +208,8 @@ namespace cosc326 {
 		if(i == zero){
 			throw "Division by zero";
 		}
-		if(i < zero){
-			remainder = dividend % +i;	
+		if(i < zero || dividend < zero){
+			remainder = +dividend % +i;	
 			remainder.sign = false;
 			*this = remainder;
 			return *this;

@@ -167,7 +167,19 @@ namespace cosc326 {
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Rational& i) {
-		os << i.getNumerator() << "/" << i.getDenominator(); 
+        Rational simplifiedI(i);
+        simplifiedI  = i.simplify(simplifiedI);
+        if(i.getRemainder() == Integer("0")){
+            os << simplifiedI.getQuotient();
+        }else if(i.getQuotient() == Integer("0")){
+            os << simplifiedI.getNumerator() << "/"
+            << simplifiedI.getDenominator();
+        }else if(i.getQuotient() != Integer("1") && 
+            i.getRemainder() != Integer("0")){
+            os << simplifiedI.getQuotient() << "." <<
+                +simplifiedI.getRemainder() << "/" <<
+                +simplifiedI.getDenominator();
+        }
 		return os;
 	}
 	std::istream& operator>>(std::istream& is, Rational& i) {
@@ -243,6 +255,14 @@ namespace cosc326 {
         Rational updated(*this);
         updated.quotient = updated.numerator / updated.denominator;
         updated.remain = updated.numerator % updated.denominator;
+        if(updated.remain < Integer("0")){
+            updated.remain *= Integer("-1");
+        }
         return updated;
+    }
+    Rational Rational::simplify(Rational i) const{
+         i.numerator =  i.numerator / gcd(i.numerator,i.denominator); 
+         i.denominator = i.denominator / gcd(i.numerator,i.denominator);
+         return i;
     }
 }

@@ -42,6 +42,7 @@ namespace cosc326 {
 		Integer getDenominator() const;
 		Integer getQuotient() const;
 		Integer getRemainder() const;
+		Rational simplify(Rational i) const;
 	private:
 		// Can add internal storage or methods here
 		Integer numerator;
