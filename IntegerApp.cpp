@@ -17,7 +17,7 @@ int main(){
         cosc326::Rational x(input1);
         cosc326::Rational y(input2);
         //std::cout << (x < y) << std::endl;
-        std::cout << (x -= y) << std::endl;
+        std::cout << (-x) << std::endl;
     }catch (const char* msg){
         std::cerr << msg << std::endl;
     }

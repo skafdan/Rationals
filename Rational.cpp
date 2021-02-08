@@ -72,7 +72,6 @@ namespace cosc326 {
 	Rational Rational::operator-() const {
 		Rational negativeCopy(*this);
 		negativeCopy.numerator = -(negativeCopy.numerator);
-		//return Rational(*this);
 		return negativeCopy;
 	}
 
@@ -100,10 +99,16 @@ namespace cosc326 {
 	}
 
 	Rational& Rational::operator*=(const Rational& r) {
+		this->numerator *= r.numerator;
+		this->denominator *= r.denominator;
 		return *this;
 	}
 
 	Rational& Rational::operator/=(const Rational& r) {
+		Rational flipped(r);
+		flipped.numerator = r.denominator;
+		flipped.denominator = r.numerator;
+		*this *= flipped;
 		return *this;
 	}
 
@@ -120,11 +125,15 @@ namespace cosc326 {
 	}
 
 	Rational operator*(const Rational& lhs, const Rational& rhs) {
-		return lhs;
+		Rational result(lhs);
+		result *= rhs;
+		return rhs;
 	}
 
 	Rational operator/(const Rational& lhs, const Rational& rhs) {
-		return lhs;
+		Rational result(lhs);
+		result /= rhs;
+		return result;
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Rational& i) {
