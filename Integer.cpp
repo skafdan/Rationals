@@ -65,8 +65,8 @@ namespace cosc326 {
 
 	Integer Integer::operator-() const {
 		Integer negativeCopy(*this);
-		negativeCopy.sign = false;
-		//return Integer(*this);
+		Integer negativeOne("-1");
+		negativeCopy *= negativeOne;
 		return negativeCopy;
 	}
 

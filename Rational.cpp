@@ -71,15 +71,41 @@ namespace cosc326 {
 
 	Rational Rational::operator-() const {
 		Rational negativeCopy(*this);
-		negativeCopy.numerator = -(negativeCopy.numerator);
-		return negativeCopy;
+		Integer negativeOne("-1");
+        if(negativeCopy.denominator.getSign() == true && 
+            negativeCopy.numerator.getSign() == true){
+            negativeCopy.numerator *= negativeOne;
+        }else if (negativeCopy.denominator.getSign() !=
+            negativeCopy.numerator.getSign()){
+                if(negativeCopy.numerator.getSign() == false){
+                    negativeCopy.numerator *= negativeOne;
+                }
+                if(negativeCopy.denominator.getSign() == false){
+                    negativeCopy.denominator *= negativeOne;
+                }
+        }else if(negativeCopy.denominator.getSign() == false && 
+            negativeCopy.numerator.getSign() == false){
+                negativeCopy.numerator *= negativeOne;
+        }
+        return negativeCopy;
 	}
 
 	Rational Rational::operator+() const {
 		Rational positiveCopy(*this);
-		positiveCopy.denominator = +(positiveCopy.denominator);
-		positiveCopy.numerator = +(positiveCopy.numerator);
-		return Rational(*this);
+		Integer negativeOne("-1");
+        if(positiveCopy.denominator.getSign() == false &&
+            positiveCopy.numerator.getSign() == false){
+                return positiveCopy;
+        }else if (positiveCopy.denominator.getSign() != 
+            positiveCopy.numerator.getSign()){
+                if(positiveCopy.numerator.getSign() == false){
+                     positiveCopy.numerator *= negativeOne;
+                }
+                if(positiveCopy.denominator.getSign() == false){
+                    positiveCopy.denominator *= negativeOne;
+                }
+        }
+		return positiveCopy;
 	}
 
 	Rational& Rational::operator+=(const Rational& r) {
