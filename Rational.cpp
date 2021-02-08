@@ -71,8 +71,7 @@ namespace cosc326 {
 
 	Rational Rational::operator-() const {
 		Rational negativeCopy(*this);
-		negativeCopy.denominator = -(negativeCopy.denominator);
-		negativeCopy.numerator = -(negativeCopy.denominator);
+		negativeCopy.numerator = -(negativeCopy.numerator);
 		//return Rational(*this);
 		return negativeCopy;
 	}
@@ -80,16 +79,23 @@ namespace cosc326 {
 	Rational Rational::operator+() const {
 		Rational positiveCopy(*this);
 		positiveCopy.denominator = +(positiveCopy.denominator);
-		positiveCopy.denominator = +(positiveCopy.denominator);
+		positiveCopy.numerator = +(positiveCopy.numerator);
 		return Rational(*this);
 	}
 
 	Rational& Rational::operator+=(const Rational& r) {
+		if(this->getDenominator() == r.getDenominator()){
+			this->numerator += r.numerator;
+		}else {
+			this->numerator = (this->numerator * r.denominator) + (r.numerator * this->denominator);
+			this->denominator *= r.denominator;
+		}
 		return *this;
 	}
 
 
 	Rational& Rational::operator-=(const Rational& r) {
+		*this = *this + -r;
 		return *this;
 	}
 
@@ -102,11 +108,15 @@ namespace cosc326 {
 	}
 
 	Rational operator+(const Rational& lhs, const Rational& rhs) {
-		return lhs;
+		Rational result(lhs);
+		result += rhs;
+		return result;
 	}
 
 	Rational operator-(const Rational& lhs, const Rational& rhs) {
-		return lhs;
+		Rational result(lhs);
+		result += rhs;
+		return result;
 	}
 
 	Rational operator*(const Rational& lhs, const Rational& rhs) {
