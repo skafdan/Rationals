@@ -189,6 +189,12 @@ namespace cosc326 {
 			*this = quotient;
 			return *this;
 		}
+		if(dividend < zero){
+			quotient = +dividend / divisor;
+			quotient.sign = false;
+			*this = quotient;
+			return *this; 
+		}
 		while(remainder >= divisor){
 			quotient = quotient + one;
 			remainder = remainder - divisor;
