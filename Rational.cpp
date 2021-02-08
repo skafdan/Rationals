@@ -115,18 +115,21 @@ namespace cosc326 {
 			this->numerator = (this->numerator * r.denominator) + (r.numerator * this->denominator);
 			this->denominator *= r.denominator;
 		}
+        *this = updateQR();
 		return *this;
 	}
 
 
 	Rational& Rational::operator-=(const Rational& r) {
 		*this = *this + -r;
+        *this = updateQR();
 		return *this;
 	}
 
 	Rational& Rational::operator*=(const Rational& r) {
 		this->numerator *= r.numerator;
 		this->denominator *= r.denominator;
+        *this = updateQR();
 		return *this;
 	}
 
@@ -135,6 +138,7 @@ namespace cosc326 {
 		flipped.numerator = r.denominator;
 		flipped.denominator = r.numerator;
 		*this *= flipped;
+        *this = updateQR();
 		return *this;
 	}
 
@@ -235,4 +239,10 @@ namespace cosc326 {
 	Integer Rational::getRemainder() const{
 		return this->remain;
 	}
+    Rational Rational::updateQR() const{
+        Rational updated(*this);
+        updated.quotient = updated.numerator / updated.denominator;
+        updated.remain = updated.numerator % updated.denominator;
+        return updated;
+    }
 }

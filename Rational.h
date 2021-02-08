@@ -48,6 +48,7 @@ namespace cosc326 {
 		Integer denominator;
 		Integer quotient;
 		Integer remain;
+		Rational updateQR() const;
 	};
 
 	// Binary operators

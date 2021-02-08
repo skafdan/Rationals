@@ -13,13 +13,15 @@ int main(){
         std::string input1;
         std::string input2;
         getline(std::cin,input1);
+        getline(std::cin,input2);
         //cosc326::Rational x(input1);
         //cosc326::Rational y(input2);
-        cosc326::Integer x(input1);
+        cosc326::Rational x(input1);
+        cosc326::Rational y(input2);
         //std::cout << (x < y) << std::endl;
         //std::cout << (x) << std::endl;
-        std::cout << (-x) << std::endl;
-        std::cout << (+x) << std::endl;
+        std::cout << (x += y) << std::endl;
+        //std::cout << (+x) << std::endl;
     }catch (const char* msg){
         std::cerr << msg << std::endl;
     }
