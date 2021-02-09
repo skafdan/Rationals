@@ -1,3 +1,8 @@
+/**
+ * Cosc326 Rational class header file.
+ * @author Dan Skaf, Elijah Passmore
+ * 09/02/2021
+ * */
 #pragma once
 
 // Most compilers understand the once pragma, but just in case...
@@ -15,15 +20,41 @@ class Rational
 {
 
   public:
+    /**
+     * Initializes Rational to 0.
+     * */
     Rational();
+    /**
+     * Creates Rational from string
+     * @param str to create Rational.
+     * */
     Rational(const std::string &str);
+    /**
+     * Copies Rational from another Instance
+     * @param r Rational to copy
+     * */
     Rational(const Rational &r);
+    /**
+     * Create Rational from Integer.
+     * @param a Integer.
+     * */
     Rational(const Integer &a);                                     // a
+    /**
+     * Create Rational from two Integers.
+     * @param a Integer.
+     * @param b Integer.
+     * */
     Rational(const Integer &a, const Integer &b);                   // a/b
+    /**
+     * Create Rational from sum of two integers and a 3rd.
+     * */
     Rational(const Integer &a, const Integer &b, const Integer &c); // a + b/c
 
     ~Rational();
-
+    /**
+     * Assignment operator
+     * @param r Rational to be assigned.
+     * */
     Rational &operator=(const Rational &r); // q = r;
 
     // Unary operators
@@ -40,10 +71,28 @@ class Rational
     // parts of the class. You may need to make some other functions friends, but
     // do so sparingly.
     friend bool operator<(const Rational &lhs, const Rational &rhs);
+    /**
+     * Gets numerator Integer.
+     * */
     Integer getNumerator() const;
+    /**
+     * Gets denominator Integer.
+     * */
     Integer getDenominator() const;
+    /**
+     * Gets quotient Integer.
+     * */
     Integer getQuotient() const;
+    /**
+     * Gets remainder Integer.
+     * */
     Integer getRemainder() const;
+    /**
+     * Simplifies the Rational by calculating GCD of numerator and denominator 
+     * and dividing both by GCD.
+     * @param i Rational to simplify
+     * @return Rational.
+     * */
     Rational simplify(Rational i) const;
 
   private:
@@ -52,6 +101,9 @@ class Rational
     Integer denominator;
     Integer quotient;
     Integer remain;
+    /**
+     * Recalculates quotient and remainder.
+     * */
     Rational updateQR() const;
 };
 

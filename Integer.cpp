@@ -1,3 +1,8 @@
+/**
+ * Cosc326 Large Integer Class
+ * @author Dan Skaf, Elijah Passmore.
+ * 9/02/2021
+ * */
 #include "Integer.h"
 
 #include <math.h>
@@ -9,7 +14,7 @@
 
 namespace cosc326
 {
-
+/* Constructors */
 Integer::Integer() : sign(true), digits(1, 0), numDigits(1)
 {
     // Initialzation handled by initializer list.
@@ -22,7 +27,10 @@ Integer::Integer(const Integer &i)
     this->sign = i.sign;
 }
 
-Integer::Integer(const std::string &s) : sign(true), numDigits(0), digits(s.length(), '0')
+Integer::Integer(const std::string &s) 
+: sign(true),
+  numDigits(0),
+  digits(s.length(), '0')
 {
     int k;
     int limit = 0;
@@ -94,7 +102,7 @@ Integer &Integer::operator+=(const Integer &i)
     {
         length = i.numDigits;
     }
-    if (this->sign != i.sign)
+    if (this->sign != i.sign)//Treat negative addition as subtraction.
     {
         Integer flippedSignI(i);
         flippedSignI.sign = !flippedSignI.sign;
@@ -143,7 +151,8 @@ Integer &Integer::operator-=(const Integer &i)
         return *this;
     }
     // Assuming signs are the same. Take larger and place on top.
-    if (this->isPositive() && (*this) < rhs || this->isNegative() && (*this) > rhs)
+    if (this->isPositive() && (*this) < rhs 
+        || this->isNegative() && (*this) > rhs)
     {
         *this = rhs - *this;
         if (this->isPositive())
@@ -173,11 +182,11 @@ Integer &Integer::operator-=(const Integer &i)
 
 Integer &Integer::operator*=(const Integer &i)
 {
-    if (this->sign != i.sign)
+    if (this->sign != i.sign)// -x * +y = - z
     {
         this->sign = false;
     }
-    else
+    else //-x * -y = +z
     {
         this->sign = true;
     }
@@ -196,7 +205,6 @@ Integer &Integer::operator*=(const Integer &i)
 
 Integer &Integer::operator/=(const Integer &i)
 {
-    // LargeIntegerDivision Branch
     Integer quotient("0");
     Integer dividend(*this);
     Integer divisor(i);
@@ -205,7 +213,7 @@ Integer &Integer::operator/=(const Integer &i)
     {
         throw "Division by zero";
     }
-    if (this->isNegative() && divisor.isNegative())
+    if (this->isNegative() && divisor.isNegative())//-x/-y = +z
     {
         Integer lhsPositive(+*this);
         Integer rhsPositive(+divisor);
@@ -213,21 +221,21 @@ Integer &Integer::operator/=(const Integer &i)
         *this = lhsPositive;
         return *this;
     }
-    if (divisor < zero)
+    if (divisor < zero) //+x / - y = +x / +y =  -1 * (+z)
     {
         quotient = dividend / +divisor;
         quotient.sign = false;
         *this = quotient;
         return *this;
     }
-    if (dividend < zero)
+    if (dividend < zero) //Same as above condition 
     {
         quotient = +dividend / divisor;
         quotient.sign = false;
         *this = quotient;
         return *this;
     }
-    std::string ans;
+    std::string result;
     std::string number = toString();
     long primDivisor;
     std::stringstream ss(i.toString());
@@ -238,29 +246,29 @@ Integer &Integer::operator/=(const Integer &i)
         temp = temp * 10 + (number[++idx] - '0');
     while (number.size() > idx)
     {
-        ans += (temp / primDivisor) + '0';
+        result += (temp / primDivisor) + '0';
         temp = (temp % primDivisor) * 10 + number[++idx] - '0';
     }
-    if (ans.length() == 0)
+    if (result.length() == 0)
     {
-        ans = "0";
+        result = "0";
     }
-    *this = Integer(ans);
+    *this = Integer(result);
     return *this;
 }
 
 Integer &Integer::operator%=(const Integer &i)
 {
-    int res = 0;
+    int result = 0;
     long primDivisor;
     std::stringstream ss(i.toString());
     ss >> primDivisor;
     std::string number = toString();
     for (int i = 0; i < number.length(); i++)
     {
-        res = (res * 10 + (int)number[i] - '0') % primDivisor;
+        result = (result * 10 + (int)number[i] - '0') % primDivisor;
     }
-    *this = Integer(std::to_string(res));
+    *this = Integer(std::to_string(result));
     return *this;
 }
 
@@ -327,9 +335,8 @@ bool operator<(const Integer &lhs, const Integer &rhs)
                (lhsCopy.numDigits > rhs.numDigits && lhsCopy.isNegative());
     }
 
-    int k;
     int length = lhs.numDigits;
-    for (k = length - 1; k >= 0; k--)
+    for (int k = length - 1; k >= 0; k--)
     {
         if (lhsCopy.getDigit(k) < rhs.getDigit(k))
             return lhsCopy.isPositive();
@@ -378,7 +385,7 @@ bool operator!=(const Integer &lhs, const Integer &rhs)
 
 Integer gcd(const Integer &a, const Integer &b)
 {
-    Integer remainder(a % b);
+    Integer remainder(a % b); 
     std::stringstream ss(a.toString());
     long primA;
     ss >> primA;
@@ -407,7 +414,7 @@ void Integer::changeDigit(int k, int value)
 {
     if (k < 0 || k > numDigits)
     {
-        std::cerr << "Cant change digit " << k << ".only " << numDigits << std::endl;
+        throw "Index out of bounds";
     }
     else
     {

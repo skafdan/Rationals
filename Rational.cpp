@@ -1,3 +1,8 @@
+/**
+ * Cosc326 Rational Class.
+ * @author Dan Skaf, Elijah Passmore.
+ * 09/02/2021
+ * */
 #include "Rational.h"
 
 #include <sstream>
@@ -8,7 +13,11 @@
 namespace cosc326
 {
 
-Rational::Rational() : numerator("0"), denominator("0"), quotient("0"), remain("0")
+Rational::Rational()
+ : numerator("0"), 
+   denominator("0"), 
+   quotient("0"), 
+   remain("0")
 {
     // Initialzation handled by initializer list.
 }
