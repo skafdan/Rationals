@@ -7,70 +7,74 @@
 #include <string>
 #include <vector>
 
-namespace cosc326 {
+namespace cosc326
+{
 
-	class Integer {
+class Integer
+{
 
-	public:
+  public:
+    Integer();                     // Integer i;
+    Integer(const Integer &i);     // Integer j(i);
+    Integer(const std::string &s); // Integer k("123");
 
-		Integer();                             // Integer i;
-		Integer(const Integer& i);             // Integer j(i);
-		Integer(const std::string& s);         // Integer k("123");
+    ~Integer();
 
-		~Integer();
+    Integer &operator=(const Integer &i); // j = i;
 
-		Integer& operator=(const Integer& i);  // j = i;
+    // Unary operators
+    Integer operator-() const; // -j;
+    Integer operator+() const; // +j;
 
-		// Unary operators
-		Integer operator-() const;                   // -j;
-		Integer operator+() const;                   // +j;
+    // Arithmetic assignment operators
+    Integer &operator+=(const Integer &i); // j += i;
+    Integer &operator-=(const Integer &i); // j -= i;
+    Integer &operator*=(const Integer &i); // j *= i;
+    Integer &operator/=(const Integer &i); // j /= i;
+    Integer &operator%=(const Integer &i); // j %= i;
+    // lhs < rhs -- a 'friend' means operator isn't a member, but can access the
+    // private parts of the class. You may need to make some other functions
+    // friends, but do so sparingly.
+    friend bool operator<(const Integer &lhs, const Integer &rhs);
+    friend bool equal(const Integer &lhs, const Integer &rhs);
 
-		// Arithmetic assignment operators
-		Integer& operator+=(const Integer& i); // j += i;
-		Integer& operator-=(const Integer& i); // j -= i;
-		Integer& operator*=(const Integer& i); // j *= i;
-		Integer& operator/=(const Integer& i); // j /= i;
-		Integer& operator%=(const Integer& i); // j %= i;
-		// lhs < rhs -- a 'friend' means operator isn't a member, but can access the private parts of the class.
-		// You may need to make some other functions friends, but do so sparingly.
-		friend bool operator<(const Integer& lhs, const Integer& rhs);
-		friend bool equal(const Integer& lhs, const Integer& rhs);	
+    int getNumDigits() const;
+    std::string toString() const;
+    bool isNegative();
+    bool isPositive();
+    bool getSign();
 
-		int getNumDigits() const;
-		std::string toString() const;
-		bool isNegative();
-		bool isPositive();
-		bool getSign();
-	private:
-		//Data fields
-		bool sign;
-		std::vector<int> digits;
-		int numDigits;
-		//methods
-		int getDigit(int k) const;
-		void addSigDigit(int value);
-		void changeDigit(int k, int value);
-		void normalize(); //Removes leading zeros
-		Integer primTimesInt(Integer& i, int x);
-	};
-	// Binary operators
-	Integer operator+(const Integer& lhs, const Integer& rhs); // lhs + rhs;
-	Integer operator-(const Integer& lhs, const Integer& rhs); // lhs - rhs;
-	Integer operator*(const Integer& lhs, const Integer& rhs); // lhs * rhs;
-	Integer operator/(const Integer& lhs, const Integer& rhs); // lhs / rhs;
-	Integer operator%(const Integer& lhs, const Integer& rhs); // lhs % rhs;
+  private:
+    // Data fields
+    bool sign;
+    std::vector<int> digits;
+    int numDigits;
+    // methods
+    int getDigit(int k) const;
+    void addSigDigit(int value);
+    void changeDigit(int k, int value);
+    void normalize(); // Removes leading zeros
+    Integer primTimesInt(Integer &i, int x);
+};
+// Binary operators
+Integer operator+(const Integer &lhs, const Integer &rhs); // lhs + rhs;
+Integer operator-(const Integer &lhs, const Integer &rhs); // lhs - rhs;
+Integer operator*(const Integer &lhs, const Integer &rhs); // lhs * rhs;
+Integer operator/(const Integer &lhs, const Integer &rhs); // lhs / rhs;
+Integer operator%(const Integer &lhs, const Integer &rhs); // lhs % rhs;
 
-	std::ostream& operator<<(std::ostream& os, const Integer& i);  // std::cout << i << std::endl;
-	std::istream& operator>>(std::istream& is, Integer& i);        // std::cin >> i;
+std::ostream &operator<<(std::ostream &os,
+                         const Integer &i);             // std::cout << i << std::endl;
+std::istream &operator>>(std::istream &is, Integer &i); // std::cin >> i;
 
-	bool operator> (const Integer& lhs, const Integer& rhs); // lhs > rhs
-	bool operator<=(const Integer& lhs, const Integer& rhs); // lhs <= rhs
-	bool operator>=(const Integer& lhs, const Integer& rhs); // lhs >= rhs
-	bool operator==(const Integer& lhs, const Integer& rhs); // lhs == rhs
-	bool operator!=(const Integer& lhs, const Integer& rhs); // lhs != rhs
+bool operator>(const Integer &lhs, const Integer &rhs);  // lhs > rhs
+bool operator<=(const Integer &lhs, const Integer &rhs); // lhs <= rhs
+bool operator>=(const Integer &lhs, const Integer &rhs); // lhs >= rhs
+bool operator==(const Integer &lhs, const Integer &rhs); // lhs == rhs
+bool operator!=(const Integer &lhs, const Integer &rhs); // lhs != rhs
 
-	Integer gcd(const Integer& a, const Integer& b);  // i = gcd(a, b);
+Integer gcd(const Integer &a, const Integer &b); // i = gcd(a, b);
 
-}
+} // namespace cosc326
 
 #endif
