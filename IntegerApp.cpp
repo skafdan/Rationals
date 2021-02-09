@@ -13,10 +13,10 @@ int main(){
         std::string input1;
         std::string input2;
         getline(std::cin,input1);
-        getline(std::cin,input2);
+        //getline(std::cin,input2);
+        cosc326::Rational x(input1);
+        //cosc326::Integer y(input2);
         //cosc326::Rational x(input1);
-        cosc326::Integer y(input2);
-        cosc326::Integer x(input1);
         //cosc326::Integer y(input2);
         //cosc326::Integer z;
         //std::cout << (x < y) << std::endl;
@@ -24,7 +24,8 @@ int main(){
         //std::cout << x % y << std::endl;
         //std::cout << y << std::endl;
         //std::cout << (x += y) << std::endl;
-        std::cout << x / y << std::endl;
+        //std::cout << (z = gcd(x,y)) << std::endl;
+        std::cout << (x) << std::endl;
     }catch (const char* msg){
         std::cerr << msg << std::endl;
     }

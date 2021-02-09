@@ -108,7 +108,7 @@ namespace cosc326 {
 	Integer& Integer::operator-=(const Integer& i) {
 		int diff;
 		int borrow = 0;
-
+		Integer rhs(i);
 		int length = numDigits;
 		if (*this == i){
 			Integer zero;
@@ -116,25 +116,25 @@ namespace cosc326 {
 			return *this;
 		}
 
-		if(this->sign != i.sign){
-			Integer flippedSignI(i);
+		if(this->isNegative() != rhs.isNegative()){
+			Integer flippedSignI(rhs);
 			flippedSignI.sign = !flippedSignI.sign;
 			*this += flippedSignI;
 			return *this;
 		}
 		//Assuming signs are the same. Take larger and place on top.
-		if (this->sign && (*this) < i || 
-			!(this->sign) && (*this) > i){
-			*this = i - *this;
-			if (this->sign){
-				this->sign = !this->sign;
+		if (this->isPositive() && (*this) < rhs || 
+			this->isNegative() && (*this) > rhs){
+			*this = rhs - *this;
+			if (this->isPositive()){
+				this->sign = false;
 			} else {
-				this->sign = !this->sign;
+				this->sign = true;
 			}
 			return *this;	
 		}
 		for(int k = 0; k < length; k++){
-			diff = getDigit(k) - i.getDigit(k) - borrow;
+			diff = getDigit(k) - rhs.getDigit(k) - borrow;
 			borrow = 0;
 			if (diff < 0){
 				diff += 10;
@@ -194,16 +194,16 @@ namespace cosc326 {
 		}
 		std::string ans;
 		std::string number = toString();
-		long divisior;
+		long primDivisor;
 		std::stringstream ss(i.toString());
-		ss >> divisior;	
+		ss >> primDivisor;	
 		int idx = 0;
 		long temp = number[idx] - '0';
-		while(temp < divisior)
+		while(temp < primDivisor)
 			temp = temp * 10 + (number[++idx] - '0');
 		while(number.size() > idx){
-			ans += (temp / divisior) + '0';
-			temp = (temp % divisior) * 10 + number[++idx] - '0';
+			ans += (temp / primDivisor) + '0';
+			temp = (temp % primDivisor) * 10 + number[++idx] - '0';
 		}
 		if (ans.length() == 0){
 			ans = "0";
@@ -213,23 +213,16 @@ namespace cosc326 {
 	}
 
 	Integer& Integer::operator%=(const Integer& i) {
-		Integer zero("0");
-		Integer dividend(*this);
-		Integer remainder(*this);
-		if(i == zero){
-			throw "Division by zero";
+		int res = 0;
+		long primDivisor;
+		std::stringstream ss(i.toString());
+		ss >> primDivisor;
+		std::string number = toString();
+		for (int i = 0; i < number.length(); i++){
+			res = (res*10 + (int)number[i] - '0') %primDivisor;
 		}
-		if(i < zero || dividend < zero){
-			remainder = +dividend % +i;	
-			remainder.sign = false;
-			*this = remainder;
-			return *this;
-		}
-		while(remainder >= i){
-			remainder = remainder - i;
-		}
-		*this = remainder;
-		return *this;
+		*this = Integer(std::to_string(res));
+		return *this;	
 	}
 
 	Integer operator+(const Integer& lhs, const Integer& rhs) {
@@ -276,30 +269,23 @@ namespace cosc326 {
 	}
 
 	bool operator<(const Integer& lhs, const Integer& rhs) {
-		//-rhs && +lhs rhs cant not be greater than lhs.
-        if(rhs == lhs){
-            return false;
-        }else if(rhs.sign == false && lhs.sign == true){
-			return false;
-		//Same sign(+) but length of rhs < length of lhs, lhs cant be greater.
-		}else if ((rhs.sign == true && lhs.sign == true)
-			&& lhs.getNumDigits() > rhs.getNumDigits()){ 
-			return false;
-        //Same sign(-) but length of rhs > length of lhs, rhs cant be greater.
-        }else if ((rhs.sign == false && lhs.sign == false) 
-            && lhs.getNumDigits() < rhs.getNumDigits()){
-                return false;
-		}else if(rhs.sign == lhs.sign && //If a digit is greater on the lhs.
-			rhs.getNumDigits() == lhs.getNumDigits()){
-            int k = rhs.getNumDigits()-1;
-            while(k >= 0){
-                if(lhs.getDigit(k) > rhs.getDigit(k)){
-                    return false;
-                }
-				k--;
-            }
+		Integer lhsCopy(lhs);
+		Integer rhsCopy(rhs);
+		if(lhsCopy.isNegative() != rhsCopy.isNegative()){
+			return lhsCopy.isNegative();
 		}
-		return true;
+		if (lhsCopy.numDigits != rhsCopy.numDigits){
+			return (lhsCopy.numDigits < rhsCopy.numDigits && lhsCopy.isPositive()) || 
+				   (lhsCopy.numDigits > rhs.numDigits && lhsCopy.isNegative());
+		}
+
+		int k;
+		int length = lhs.numDigits;
+		for(k = length -1; k >= 0; k--){
+			if(lhsCopy.getDigit(k) < rhs.getDigit(k)) return lhsCopy.isPositive();
+			if(lhsCopy.getDigit(k) > rhs.getDigit(k)) return lhsCopy.isNegative();
+		}
+		return false;
 	}
 
 	bool operator> (const Integer& lhs, const Integer& rhs) {
@@ -332,18 +318,15 @@ namespace cosc326 {
 	}
 
 	Integer gcd(const Integer& a, const Integer& b) {
-		Integer copyB(b);
-		Integer copyA(a);
-		Integer zero("0");
-		if(copyB.isNegative() || copyA.isNegative()){
-			return gcd(+copyA,+copyB);
-		}
-		while(copyB != zero){
-			Integer t (copyB);
-			copyB = (copyA % copyB);
-			copyA = t;
-		}
-		return copyA;
+		Integer remainder(a%b);
+		std::stringstream ss(a.toString());
+		long primA;
+		ss >> primA;
+		std::stringstream ss2(remainder.toString());
+		long primReminader;
+		ss2 >> primReminader;
+		long result = std::__gcd(primA,primReminader);
+		return Integer(std::to_string(result));
 	}
     int Integer::getDigit(int k) const{
         if(0 <= k && k < this->numDigits){

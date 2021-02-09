@@ -278,8 +278,9 @@ namespace cosc326 {
         return updated;
     }
     Rational Rational::simplify(Rational i) const{
-         i.numerator =  i.numerator / gcd(i.numerator,i.denominator); 
-         i.denominator = i.denominator / gcd(i.numerator,i.denominator);
+		Integer GCD(gcd(i.numerator,i.denominator));
+         i.numerator =  i.numerator / GCD;
+         i.denominator = i.denominator / GCD;
          return i;
     }
 }
