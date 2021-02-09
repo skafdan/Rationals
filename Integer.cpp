@@ -165,13 +165,12 @@ namespace cosc326 {
     }
 
 	Integer& Integer::operator/=(const Integer& i) {
+		//LargeIntegerDivision Branch
 		Integer quotient("0");
-		Integer remainder(*this);
-		Integer dividend (*this);
+		Integer dividend(*this);
 		Integer divisor(i);
 		Integer zero("0");
-		Integer one("1");
-		if(divisor == zero){
+		if(i == zero){
 			throw "Division by zero";
 		}
 		if(this->isNegative() && divisor.isNegative()){
@@ -193,11 +192,23 @@ namespace cosc326 {
 			*this = quotient;
 			return *this; 
 		}
-		while(remainder >= divisor){
-			quotient = quotient + one;
-			remainder = remainder - divisor;
+		std::string ans;
+		std::string number = toString();
+		long divisior;
+		std::stringstream ss(i.toString());
+		ss >> divisior;	
+		int idx = 0;
+		long temp = number[idx] - '0';
+		while(temp < divisior)
+			temp = temp * 10 + (number[++idx] - '0');
+		while(number.size() > idx){
+			ans += (temp / divisior) + '0';
+			temp = (temp % divisior) * 10 + number[++idx] - '0';
 		}
-		*this = quotient;
+		if (ans.length() == 0){
+			ans = "0";
+		}
+		*this = Integer(ans);
 		return *this;
 	}
 
