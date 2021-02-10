@@ -396,8 +396,8 @@ bool operator!=(const Integer &lhs, const Integer &rhs)
 
 Integer gcd(const Integer &a, const Integer &b)
 {
-    Integer copyA(a);
-    Integer copyB(b);
+    Integer copyA(+a);
+    Integer copyB(+b);
     while(copyA != copyB){
         if(copyA > copyB){
             copyA = copyA - copyB;
