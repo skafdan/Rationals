@@ -95,7 +95,7 @@ Rational::Rational(const Integer &a, const Integer &b)
 
 Rational::Rational(const Integer &a, const Integer &b, const Integer &c)
 {
-    numerator = a + b;
+    numerator = (c*a) + b;
     denominator = c;
     quotient = numerator / denominator;
     remain = numerator % denominator;
