@@ -22,9 +22,9 @@ Integer::Integer() : sign(true), digits(1, 0), numDigits(1)
 
 Integer::Integer(const Integer &i)
 {
-    this->numDigits = i.numDigits;
-    this->digits = i.digits;
-    this->sign = i.sign;
+    numDigits = i.numDigits;
+    digits = i.digits;
+    sign = i.sign;
 }
 
 Integer::Integer(const std::string &s) 
@@ -205,70 +205,81 @@ Integer &Integer::operator*=(const Integer &i)
 
 Integer &Integer::operator/=(const Integer &i)
 {
-    Integer quotient("0");
-    Integer dividend(*this);
-    Integer divisor(i);
-    Integer zero("0");
-    if (i == zero)
-    {
-        throw "Division by zero";
-    }
-    if (this->isNegative() && divisor.isNegative())//-x/-y = +z
-    {
-        Integer lhsPositive(+*this);
-        Integer rhsPositive(+divisor);
-        lhsPositive /= rhsPositive;
-        *this = lhsPositive;
-        return *this;
-    }
-    if (divisor < zero) //+x / - y = +x / +y =  -1 * (+z)
-    {
-        quotient = dividend / +divisor;
-        quotient.sign = false;
+    if(i.numDigits > 19){
+        if(i == Integer("0")){
+            throw "Division by zero";
+        }
+        Integer dividend(*this);
+        Integer  tempDivisor(i);
+        Integer quotient("0");
+        dividend.sign = true;
+        while(dividend >= tempDivisor){
+            dividend -= tempDivisor;
+            quotient += Integer("1");
+        }
+        if(this->isNegative() != tempDivisor.isNegative()){
+            quotient.sign = false;
+            quotient.normalize();
+        }
         *this = quotient;
         return *this;
-    }
-    if (dividend < zero) //Same as above condition 
-    {
-        quotient = +dividend / divisor;
-        quotient.sign = false;
-        *this = quotient;
+    }else {
+        Integer quotient("0");
+        Integer dividend(*this);
+        Integer divisor(i);
+        Integer zero("0");
+        if (i == zero)
+        {
+            throw "Division by zero";
+        }
+        if (this->isNegative() && divisor.isNegative())//-x/-y = +z
+        {
+            Integer lhsPositive(+*this);
+            Integer rhsPositive(+divisor);
+            lhsPositive /= rhsPositive;
+            *this = lhsPositive;
+            return *this;
+        }
+        if (divisor < zero) //+x / - y = +x / +y =  -1 * (+z)
+        {
+            quotient = dividend / +divisor;
+            quotient.sign = false;
+            *this = quotient;
+            return *this;
+        }
+        if (dividend < zero) //Same as above condition 
+        {
+            quotient = +dividend / divisor;
+            quotient.sign = false;
+            *this = quotient;
+            return *this;
+        }
+        std::string result;
+        std::string number = toString();
+        long primDivisor = std::stoull(i.toString(),nullptr,BASE);
+        int idx = 0;
+        long temp = number[idx] - '0';
+        while (temp < primDivisor)
+            temp = temp * 10 + (number[++idx] - '0');
+        while (number.size() > idx)
+        {
+            result += (temp / primDivisor) + '0';
+            temp = (temp % primDivisor) * 10 + number[++idx] - '0';
+        }
+        if (result.length() == 0)
+        {
+            result = "0";
+        }
+        *this = Integer(result);
         return *this;
     }
-    std::string result;
-    std::string number = toString();
-    long primDivisor;
-    std::stringstream ss(i.toString());
-    ss >> primDivisor;
-    int idx = 0;
-    long temp = number[idx] - '0';
-    while (temp < primDivisor)
-        temp = temp * 10 + (number[++idx] - '0');
-    while (number.size() > idx)
-    {
-        result += (temp / primDivisor) + '0';
-        temp = (temp % primDivisor) * 10 + number[++idx] - '0';
-    }
-    if (result.length() == 0)
-    {
-        result = "0";
-    }
-    *this = Integer(result);
-    return *this;
 }
 
 Integer &Integer::operator%=(const Integer &i)
 {
-    int result = 0;
-    long primDivisor;
-    std::stringstream ss(i.toString());
-    ss >> primDivisor;
-    std::string number = toString();
-    for (int i = 0; i < number.length(); i++)
-    {
-        result = (result * 10 + (int)number[i] - '0') % primDivisor;
-    }
-    *this = Integer(std::to_string(result));
+    Integer temp(*this / i);
+    Integer max(temp * i);
+    *this -= max;
     return *this;
 }
 
@@ -385,15 +396,16 @@ bool operator!=(const Integer &lhs, const Integer &rhs)
 
 Integer gcd(const Integer &a, const Integer &b)
 {
-    Integer remainder(a % b); 
-    std::stringstream ss(a.toString());
-    long primA;
-    ss >> primA;
-    std::stringstream ss2(remainder.toString());
-    long primReminader;
-    ss2 >> primReminader;
-    long result = std::__gcd(primA, primReminader);
-    return Integer(std::to_string(result));
+    Integer copyA(a);
+    Integer copyB(b);
+    while(copyA != copyB){
+        if(copyA > copyB){
+            copyA = copyA - copyB;
+        }else {
+            copyB = copyB - copyA;
+        }
+    }
+    return copyA;
 }
 int Integer::getDigit(int k) const
 {

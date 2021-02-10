@@ -5,34 +5,13 @@
 
 int main()
 {
-    // while(std::cin){
-    //    std::string input;
-    //    getline(std::cin,input);
-    //    cosc326::Integer i(input);
-    //    std::cout << i << std::endl;
-    //}
-    try
-    {
-        std::string input1;
-        std::string input2;
-        getline(std::cin, input1);
-        // getline(std::cin,input2);
-        cosc326::Rational x(input1);
-        // cosc326::Integer y(input2);
-        // cosc326::Rational x(input1);
-        // cosc326::Integer y(input2);
-        // cosc326::Integer z;
-        // std::cout << (x < y) << std::endl;
-        // std::cout << (z = gcd(x,y)) << std::endl;
-        // std::cout << x % y << std::endl;
-        // std::cout << y << std::endl;
-        // std::cout << (x += y) << std::endl;
-        // std::cout << (z = gcd(x,y)) << std::endl;
-        std::cout << (x) << std::endl;
-    }
-    catch (const char *msg)
-    {
-        std::cerr << msg << std::endl;
-    }
+    std::string a = "2452345345234123123178";
+    std::string b = "23459023850983290589042";
+    std::cout<<"The greatest common divisorof,\n\t"<<a<<"\n\t"<<b<<"\nis,\n\t";
+    std::cout<<cosc326::gcd(a,b)<<"\n";
+    std::string rationalStr = "2452345345234123123178/23459023850983290589042";
+    //cosc326::Integer x(a);
+    //cosc326::Integer y(b);
+    std::cout << cosc326::Rational(rationalStr) << "\n";
     return 0;
 }
