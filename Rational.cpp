@@ -31,13 +31,24 @@ Rational::Rational(const std::string &str)
     std::string remainStr;
     if (str.find(".") != std::string::npos)
     {
-        std::getline(ss, quoStr, '.');
-        std::getline(ss, remainStr, '/');
-        std::getline(ss, denomStr, '/');
-        numerator = (Integer(denomStr) * Integer(quoStr)) + Integer(remainStr);
-        denominator = Integer(denomStr);
-        quotient = numerator / denominator;
-        remain = numerator % denominator;
+        if(str.find("-") != std::string::npos){
+            std::getline(ss, quoStr, '.');
+            std::getline(ss, remainStr, '/');
+            std::getline(ss, denomStr, '/');
+            numerator = (+Integer(denomStr) * +Integer(quoStr)) + +Integer(remainStr);
+            numerator = -numerator;
+            denominator = Integer(denomStr);
+            quotient = numerator / denominator;
+            remain = numerator % denominator;    
+        }else {
+            std::getline(ss, quoStr, '.');
+            std::getline(ss, remainStr, '/');
+            std::getline(ss, denomStr, '/');
+            numerator = (Integer(denomStr) * Integer(quoStr)) + Integer(remainStr);
+            denominator = Integer(denomStr);
+            quotient = numerator / denominator;
+            remain = numerator % denominator;
+        }
     }
     else if (str.find("/") == std::string::npos)
     {
@@ -345,6 +356,8 @@ Rational Rational::simplify(Rational i) const
     Integer GCD(gcd(i.numerator, i.denominator));
     i.numerator = i.numerator / GCD;
     i.denominator = i.denominator / GCD;
+    i.quotient = i.numerator / i.denominator;
+    i.remain = i.numerator % i.denominator;
     return i;
 }
 } // namespace cosc326
