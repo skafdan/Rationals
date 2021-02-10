@@ -8,7 +8,7 @@ Integer and Rational library that includes operators and gcd and function.
 
 ```$ path_to_directory/src/Rational.cpp Rational.h Integer.cpp Integer.h foo.cpp```
 
-Compile with `$ g++ -o foobar *.cpp Integer.cpp Rational.cpp`
+Compile with `$ g++ -o <Your Program Name> <Your Files.cpp> Integer.cpp Rational.cpp`
 
 
 ### Evaluation 
