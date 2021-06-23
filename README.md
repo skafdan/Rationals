@@ -1,7 +1,6 @@
 # Rationals
-Etude_8 Cosc326.
 
-Integer and Rational library that includes operators and gcd and function.
+Integer and Rational library for C++ that includes operators overloading and a GCD function.
 
 ## Installation
 `Rational` is dependent on `Integer` both files must be included in implementation file and located in path to project.
